@@ -14,6 +14,8 @@ The goal of this course is not to clone a specific pedal, but to teach the full 
   - [Bill of Materials](docs/bom.md)
   - [Resources & Links](docs/resources.md)
   - [Recommended Learning](docs/recommended-learning.md)
+  - [Code](code/)
+  - [Hardware](hardware/)
 - [Episode Breakdown](#episode-breakdown)
 
 ## Course Overview
@@ -71,22 +73,18 @@ Designing a simple circuit schematic in KiCad to connect the Daisy Seed with ext
 
 Learning how to find existing footprints and create custom footprints using component datasheets.
 
-### Episode 7 — PCB Layout
+### Episode 7 — PCB Layout & Routing
 
-Defining the PCB outline and placing components so the board fits correctly inside the enclosure and aligns with the drill schematic.
+Defining the PCB outline, placing components so the board fits correctly inside the enclosure and aligns with the drill schematic, and basic PCB routing and ground plane.
 
-### Episode 8 — PCB Routing
-
-Routing the PCB with best practices for signal integrity, readability, and manufacturability.
-
-### Episode 9 — Design Review & Ordering
+### Episode 8 — Design Review & Ordering
 
 Verifying mechanical fit, checking for common errors, and ordering the PCB through PCBWay.
 
-### Episode 10 — UV Printing & Final Parts Order
+### Episode 9 — UV Printing & Final Parts Order
 
 Designing enclosure artwork for UV printing and placing final parts orders.
 
-### Episode 11 — Final Assembly
+### Episode 10 — Final Assembly
 
 Soldering the pedal together, testing the hardware, and applying finishing touches to the firmware.
