@@ -15,6 +15,9 @@ enum AdcChannel
     NUM_ADC_CHANNELS
 };
 
+void InitializeADC();
+void ProcessADC();
+
 #define LED D8
 #define POT1 A1
 #define POT2 A11
