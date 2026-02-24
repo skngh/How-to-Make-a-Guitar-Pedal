@@ -1,6 +1,6 @@
 # Resources
 
-> If you're looking for the sku numbers of tayda parts, you can find that [here](tayda-sku.md), or if you're looking for the full Bill of Materials, you can find that [here](bom.md).
+> If you're looking for the full Bill of Materials and part links, you can find that [here](bom.md).
 
 Here are all the resources I mentioned throughout the course. This is not including any of the parts that we will be buying through Tayda Electronics or PCBWay, since I will go over buying them in each video. Those parts are linked up above.
 

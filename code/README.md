@@ -1,11 +1,5 @@
 # Code
 
-Here is all the code detailed in the course.
-
-##
-
-# Code
-
 This folder contains all of the example code used throughout the course. Each subfolder represents a self-contained project that can be built and flashed to the Daisy Seed.
 
 > **Important**

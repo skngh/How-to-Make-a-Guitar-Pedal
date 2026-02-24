@@ -39,21 +39,18 @@ void AudioCallback(AudioHandle::InputBuffer in,
                    AudioHandle::OutputBuffer out,
                    size_t size)
 {
+    float wet;
+
+    ProcessADC();
+
     for (size_t i = 0; i < size; i++)
     {
-        float wet;
+        wet = lpf.Process(chorus.Process(in[0][i]));
 
-        ProcessADC();
-
-        for (size_t i = 0; i < size; i++)
-        {
-            wet = lpf.Process(chorus.Process(in[0][i]));
-
-            if (bypass)
-                out[0][i] = in[0][i];
-            else
-                out[0][i] = (wet * 0.75) + (in[0][i] * 0.25);
-        }
+        if (bypass)
+            out[0][i] = in[0][i];
+        else
+            out[0][i] = (wet * 0.75) + (in[0][i] * 0.25);
     }
 }
 
@@ -62,9 +59,20 @@ int main(void)
     hw.Init();
     hw.SetAudioBlockSize(4); // number of samples handled per callback
     hw.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
-    hw.StartAudio(AudioCallback);
+
+    float sampleRate = hw.AudioSampleRate();
 
     InitializeADC();
+
+    chorus.Init(sampleRate);
+    chorus.SetFeedback(feedback);
+    chorus.SetDelayMs(delayMs);
+
+    lpf.Init();
+    lpf.SetFilterMode(OnePole::FilterMode::FILTER_MODE_LOW_PASS);
+    lpf.SetFrequency(cutoff);
+
+    hw.StartAudio(AudioCallback);
 
     while (1)
     {
@@ -79,7 +87,7 @@ void InitializeADC()
     adc_config[knobThree].InitSingle(POT3);
 
     led.Init(LED, GPIO::Mode::OUTPUT, GPIO::Pull::NOPULL);
-
+    footswitch.Init(FOOTSWITCH);
     hw.SetLed(!bypass);
 
     hw.adc.Init(adc_config, NUM_ADC_CHANNELS);
@@ -94,7 +102,7 @@ void ProcessADC()
 
     rate = fmap(hw.adc.GetFloat(knobOne), .1, 5, daisysp::Mapping::EXP);
     depth = fmap(hw.adc.GetFloat(knobTwo), 0, 1, daisysp::Mapping::EXP);
-    cutoff = fmap(hw.adc.GetFloat(knobThree), 500, 5000, daisysp::Mapping::LOG);
+    cutoff = fmap(hw.adc.GetFloat(knobThree), 500, 15000, daisysp::Mapping::LOG);
 
     chorus.SetLfoFreq(rate);
     chorus.SetLfoDepth(depth);

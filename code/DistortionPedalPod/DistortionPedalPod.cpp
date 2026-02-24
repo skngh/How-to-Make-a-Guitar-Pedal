@@ -18,18 +18,17 @@ enum AdcChannel
 
 DaisySeed hw;
 
-void InitailizeADC();
+void InitializeADC();
 void ProcessADC();
 
 bool hardClip = true;
 
 Switch footswitch;
-float distortionAmount = 1.0f
+float distortionAmount = 1.0f;
 
-    void
-    AudioCallback(AudioHandle::InputBuffer in,
-                  AudioHandle::OutputBuffer out,
-                  size_t size)
+void AudioCallback(AudioHandle::InputBuffer in,
+                   AudioHandle::OutputBuffer out,
+                   size_t size)
 {
     float distortedSignal;
 
@@ -42,12 +41,14 @@ float distortionAmount = 1.0f
         if (distortedSignal >= 1.0f)
             distortedSignal = hardClip ? 1.0f : 2.0f / 3.0f;
         else if (distortedSignal <= -1.0f)
-            distortedSignal = hardClip ? -1.0f : -2.0f / -3.0f;
+            distortedSignal = hardClip ? -1.0f : -2.0f / 3.0f;
         else
         {
             float cubedSignal = distortedSignal * distortedSignal * distortedSignal;
             distortedSignal = hardClip ? distortedSignal : distortedSignal - (cubedSignal / 3);
         }
+
+        out[0][i] = distortedSignal;
     }
 }
 
@@ -57,16 +58,15 @@ int main(void)
     hw.SetAudioBlockSize(4); // number of samples handled per callback
     hw.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
     hw.StartAudio(AudioCallback);
-    float sampleRate = hw.AudioSampleRate();
 
-    InitailizeADC();
+    InitializeADC();
 
     while (1)
     {
     }
 }
 
-void InitailizeADC()
+void InitializeADC()
 {
     AdcChannelConfig adcChannelConfig[NUM_ADC_CHANNELS];
     adcChannelConfig[KnobOne].InitSingle(POT1);
